@@ -4,36 +4,24 @@ import axios from "axios";
 import {Role} from "../../models/role";
 import {Navigate} from "react-router-dom";
 import {Permission} from "../../models/permission";
+import ImageUpload from "../../components/ImageUpload";
 
-const RoleCreate = () => {
-    const [name, setName] = React.useState("");
-    const [permissions, setPermissions] = React.useState([]);
-    const [selected, setSelected] = React.useState([] as number[]);
+const ProductCreate = () => {
+    const [title, setTitle] = React.useState("");
+    const [description, setDescription] = React.useState("");
+    const [image, setImage] = React.useState("");
+    const [price, setPrice] = React.useState("");
+
     const [redirect, setRedirect] = React.useState(false);
-
-    useEffect(() => {
-        (
-            async () => {
-                const {data} = await axios.get("/permissions");
-                setPermissions(data as any);
-            }
-        )()
-    }, []);
-
-    const check = (id: number) => {
-        if (selected.some(s => s===id)){
-            setSelected(selected.filter(s => s!== id));
-            return;
-        }
-        setSelected([...selected, id]);
-    }
 
     const submit = async (e:SyntheticEvent) => {
         e.preventDefault();
         try {
-            await axios.post("/roles", {
-                name,
-                permissions: selected.map(id => id.toString()),
+            await axios.post(`/products`, {
+                title,
+                description,
+                image,
+                price: parseFloat(price),
             });
             setRedirect(true);
         } catch (error: any) {
@@ -47,33 +35,32 @@ const RoleCreate = () => {
     }
 
     if (redirect) {
-        return <Navigate to="/roles" />;
+        return <Navigate to="/products" />;
     }
 
     return (
         <Wrapper>
             <form onSubmit={submit}>
-                <div className="mb-3 mt-3 row">
-                    <label className="col-sm-2 col-form-label">Name</label>
-                    <div className="col-sm-10">
-                        <input className="form-control" onChange={e=> setName(e.target.value)}/>
+                <div className="mb-3">
+                    <label>Title</label>
+                    <input className="form-control" onChange={e=> setTitle(e.target.value)}/>
+                </div>
+                <div className="mb-3">
+                    <label>Description</label>
+                    <textarea className="form-control" onChange={e=> setDescription(e.target.value)}/>
+                </div>
+                <div className="mb-3">
+                    <label>Image</label>
+                    <div className="input-group">
+                        <input className="form-control"
+                               value={image}
+                               onChange={e=> setImage(e.target.value)}/>
+                        <ImageUpload uploaded={setImage}/>
                     </div>
                 </div>
-                <div className="mb-3 row">
-                    <label className="col-sm-2 col-form-label">Permissions</label>
-                    <div className="col-sm-10">
-                        {permissions.map((p: Permission) => {
-                            return (
-                                <div className="form-check form-check-inline col-3" key={p.id}>
-                                    <input className="form-check-input" type="checkbox"
-                                           value={p.id}
-                                           onChange = {() => check(p.id)}
-                                    />
-                                    <label className="form-check-label">{p.name}</label>
-                                </div>
-                            )
-                        })}
-                    </div>
+                <div className="mb-3">
+                    <label>Price</label>
+                    <input className="form-control" onChange={e=> setPrice(e.target.value)}/>
                 </div>
                 <button type="submit" className="btn btn-outline-secondary">Save</button>
             </form>
@@ -81,4 +68,4 @@ const RoleCreate = () => {
     );
 };
 
-export default RoleCreate;
+export default ProductCreate;
