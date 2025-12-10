@@ -1,3 +1,10 @@
+/**
+ * RoleEdit Page Component
+ * 
+ * Form page for editing an existing role.
+ * Loads role data and available permissions on mount, allows users to update
+ * role name and permissions. Redirects to roles list upon successful update.
+ */
 import React, {SyntheticEvent, useEffect} from 'react'
 import Wrapper from "../../components/Wrapper";
 import axios from "axios";
@@ -12,6 +19,9 @@ const RoleEdit = (props: any) => {
     const [redirect, setRedirect] = React.useState(false);
     const { id } = useParams();
 
+    /**
+     * Effect hook that loads role data and available permissions on component mount
+     */
     useEffect(() => {
         (
             async () => {
@@ -26,6 +36,10 @@ const RoleEdit = (props: any) => {
         )()
     }, []);
 
+    /**
+     * Toggles a permission in the selected permissions list
+     * @param id - The permission ID to toggle
+     */
     const check = (id: number) => {
         if (selected.some(s => s===id)){
             setSelected(selected.filter(s => s!== id));
@@ -34,6 +48,10 @@ const RoleEdit = (props: any) => {
         setSelected([...selected, id]);
     }
 
+    /**
+     * Handles form submission for updating a role
+     * @param e - Form submission event
+     */
     const submit = async (e:SyntheticEvent) => {
         e.preventDefault();
         try {

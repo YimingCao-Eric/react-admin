@@ -1,3 +1,10 @@
+/**
+ * UserEdit Page Component
+ * 
+ * Form page for editing an existing user.
+ * Loads user data and available roles on mount, allows users to update
+ * user details and role assignment. Redirects to users list upon successful update.
+ */
 import React, {SyntheticEvent, useEffect} from 'react'
 import Wrapper from "../../components/Wrapper";
 import axios from "axios";
@@ -13,6 +20,9 @@ const UserEdit = (props:any) => {
     const [redirect, setRedirect] = React.useState(false);
     const { id } = useParams();
 
+    /**
+     * Effect hook that loads user data and available roles on component mount
+     */
     useEffect(() => {
         (
             async () => {
@@ -29,6 +39,10 @@ const UserEdit = (props:any) => {
         )()
     }, []);
 
+    /**
+     * Handles form submission for updating a user
+     * @param e - Form submission event
+     */
     const submit = async (e:SyntheticEvent) => {
         e.preventDefault();
         try {

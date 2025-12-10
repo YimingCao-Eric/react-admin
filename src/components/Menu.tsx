@@ -1,3 +1,10 @@
+/**
+ * Menu Component
+ * 
+ * Sidebar navigation menu component that displays the main navigation links
+ * for the admin panel. Includes links to Dashboard, Users, Roles, Products, and Orders.
+ * Uses React Router's NavLink for active state management.
+ */
     import React from "react";
     import { NavLink } from "react-router-dom";
 

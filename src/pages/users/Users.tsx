@@ -1,3 +1,10 @@
+/**
+ * Users Page Component
+ * 
+ * Displays a paginated list of all users in the system.
+ * Allows viewing user details, editing users, and deleting users.
+ * Provides a link to create new users.
+ */
 import React, {useEffect, useState} from "react";
 import Wrapper from "../../components/Wrapper";
 import axios from "axios";
@@ -9,6 +16,9 @@ const Users = () => {
     const [users, setUsers] = useState([]);
     const [page, setPage] = useState(1);
     const [lastPage, setLastPage] = useState(0);
+    /**
+     * Effect hook that fetches users data when the page changes
+     */
     useEffect(() => {
         (
             async () => {
@@ -20,6 +30,10 @@ const Users = () => {
         )()
     }, [page]);
 
+    /**
+     * Deletes a user after user confirmation
+     * @param id - The ID of the user to delete
+     */
     const del = async (id: number) => {
         if (window.confirm("Are you sure you want to delete this record?")) {
             await axios.delete(`/users/${id}`);

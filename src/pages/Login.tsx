@@ -1,3 +1,10 @@
+/**
+ * Login Page Component
+ * 
+ * Authentication page that allows users to log in to the admin panel.
+ * Handles email and password input, submits credentials to the API,
+ * and redirects to the dashboard upon successful login.
+ */
 import React, {SyntheticEvent, useState} from "react";
 import axios from "axios";
 import {Navigate} from "react-router-dom";
@@ -7,6 +14,10 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [redirect, setRedirect] = useState(false);
 
+    /**
+     * Handles form submission for user login
+     * @param e - Form submission event
+     */
     const submit = async (e: SyntheticEvent) => {
         e.preventDefault();
         const {data} = await axios.post("login", {

@@ -1,3 +1,10 @@
+/**
+ * Products Page Component
+ * 
+ * Displays a paginated list of all products in the system.
+ * Allows viewing product details, editing products, and deleting products.
+ * Provides a link to create new products.
+ */
 import React, {useEffect, useState} from 'react';
 import Wrapper from "../../components/Wrapper";
 import {Link} from "react-router-dom";
@@ -10,6 +17,9 @@ const Products = () => {
     const [page, setPage] = useState(1);
     const [lastPage, setLastPage] = useState(0);
 
+    /**
+     * Effect hook that fetches products data when the page changes
+     */
     useEffect(() => {
         (
             async () =>{
@@ -20,6 +30,10 @@ const Products = () => {
         )();
     }, [page]);
 
+    /**
+     * Deletes a product after user confirmation
+     * @param id - The ID of the product to delete
+     */
     const del = async (id: number) => {
         if (window.confirm("Are you sure you want to delete?")) {
             await axios.delete(`products/${id}`);

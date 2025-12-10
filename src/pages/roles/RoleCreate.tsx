@@ -1,3 +1,10 @@
+/**
+ * RoleCreate Page Component
+ * 
+ * Form page for creating a new role.
+ * Allows users to input role name and assign permissions via checkboxes.
+ * Redirects to roles list upon successful creation.
+ */
 import React, {SyntheticEvent, useEffect} from 'react'
 import Wrapper from "../../components/Wrapper";
 import axios from "axios";
@@ -11,6 +18,9 @@ const RoleCreate = () => {
     const [selected, setSelected] = React.useState([] as number[]);
     const [redirect, setRedirect] = React.useState(false);
 
+    /**
+     * Effect hook that loads available permissions on component mount
+     */
     useEffect(() => {
         (
             async () => {
@@ -20,6 +30,10 @@ const RoleCreate = () => {
         )()
     }, []);
 
+    /**
+     * Toggles a permission in the selected permissions list
+     * @param id - The permission ID to toggle
+     */
     const check = (id: number) => {
         if (selected.some(s => s===id)){
             setSelected(selected.filter(s => s!== id));
@@ -28,6 +42,10 @@ const RoleCreate = () => {
         setSelected([...selected, id]);
     }
 
+    /**
+     * Handles form submission for creating a new role
+     * @param e - Form submission event
+     */
     const submit = async (e:SyntheticEvent) => {
         e.preventDefault();
         try {

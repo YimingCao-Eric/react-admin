@@ -1,3 +1,10 @@
+/**
+ * Register Page Component
+ * 
+ * User registration page that allows new users to create an account.
+ * Collects user information including name, email, and password,
+ * and redirects to login page upon successful registration.
+ */
 import React, {Component, SyntheticEvent} from "react";
 import "../Login.css";
 import axios from "axios";
@@ -13,6 +20,10 @@ class Register extends Component {
         redirect: false
     };
 
+    /**
+     * Handles form submission for user registration
+     * @param e - Form submission event
+     */
     submit = async (e:SyntheticEvent) => {
         e.preventDefault();
         const response = await axios.post(

@@ -1,3 +1,10 @@
+/**
+ * Product Model
+ * 
+ * Represents a product in the system.
+ * Contains product information including title, description,
+ * image URL, and price.
+ */
 export class Product {
     constructor(
         public id = 0,

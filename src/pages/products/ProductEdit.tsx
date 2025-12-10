@@ -1,3 +1,10 @@
+/**
+ * ProductEdit Page Component
+ * 
+ * Form page for editing an existing product.
+ * Loads product data on mount and allows users to update product details.
+ * Redirects to products list upon successful update.
+ */
 import React, {SyntheticEvent, useRef, useEffect} from 'react'
 import Wrapper from "../../components/Wrapper";
 import axios from "axios";
@@ -16,6 +23,9 @@ const ProductEdit = (props: any) => {
     const [redirect, setRedirect] = React.useState(false);
     const ref = useRef<HTMLInputElement>(null);
 
+    /**
+     * Effect hook that loads product data when component mounts
+     */
     useEffect(() => {
         (
             async () => {
@@ -28,6 +38,10 @@ const ProductEdit = (props: any) => {
         )()
     }, []);
 
+    /**
+     * Handles form submission for updating a product
+     * @param e - Form submission event
+     */
     const submit = async (e:SyntheticEvent) => {
         e.preventDefault();
         try {
@@ -48,6 +62,10 @@ const ProductEdit = (props: any) => {
         setRedirect(true);
     }
 
+    /**
+     * Updates the image URL in both the input field and state
+     * @param url - The new image URL
+     */
     const updateImage = (url:string) => {
         if (ref.current) {
             ref.current.value = url;

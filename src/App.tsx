@@ -1,3 +1,10 @@
+/**
+ * App Component
+ * 
+ * Main application component that sets up routing for the entire application.
+ * Defines all routes for the admin panel including dashboard, authentication,
+ * user management, role management, product management, and order management.
+ */
 import React from 'react';
 import './App.css';
 import {BrowserRouter, Routes, Route} from "react-router-dom";

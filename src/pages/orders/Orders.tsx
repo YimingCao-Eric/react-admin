@@ -1,3 +1,10 @@
+/**
+ * Orders Page Component
+ * 
+ * Displays a paginated list of all orders in the system.
+ * Allows viewing order details including customer information and order items.
+ * Provides functionality to export orders to CSV format.
+ */
 import React, {useEffect, useState} from "react"
 import Wrapper from "../../components/Wrapper";
 
@@ -7,6 +14,7 @@ import {Order} from "../../models/order";
 import {OrderItem} from "../../models/order-item";
 import {Link} from "react-router-dom";
 
+// Styles for hiding/showing order item details
 const hide = {
     maxHeight: 0,
     transition: '100ms ease-in'
@@ -23,6 +31,9 @@ const Orders =() => {
     const [lastPage, setLastPage] = useState(0);
     const [selected, setSelected] = useState(0);
 
+    /**
+     * Effect hook that fetches orders data when the page changes
+     */
     useEffect(() => {
         (
             async () =>{
@@ -33,10 +44,17 @@ const Orders =() => {
         )();
     }, [page]);
 
+    /**
+     * Toggles the visibility of order item details for a specific order
+     * @param id - The order ID to toggle
+     */
     const  select = (id: number) => {
         setSelected(selected === id ? 0:id);
     }
 
+    /**
+     * Exports all orders to a CSV file
+     */
     const handleExport = async () => {
         const {data} = await axios.post(`export`, {}, {responseType: "blob"});
         const blob = new Blob([(data as any)], { type: "text/csv" });

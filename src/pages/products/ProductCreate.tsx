@@ -1,3 +1,10 @@
+/**
+ * ProductCreate Page Component
+ * 
+ * Form page for creating a new product.
+ * Allows users to input product details including title, description,
+ * image URL, and price. Redirects to products list upon successful creation.
+ */
 import React, {SyntheticEvent, useEffect} from 'react'
 import Wrapper from "../../components/Wrapper";
 import axios from "axios";
@@ -14,6 +21,10 @@ const ProductCreate = () => {
 
     const [redirect, setRedirect] = React.useState(false);
 
+    /**
+     * Handles form submission for creating a new product
+     * @param e - Form submission event
+     */
     const submit = async (e:SyntheticEvent) => {
         e.preventDefault();
         try {

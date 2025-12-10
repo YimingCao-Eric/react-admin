@@ -1,3 +1,10 @@
+/**
+ * UserCreate Page Component
+ * 
+ * Form page for creating a new user.
+ * Allows users to input user details including name, email, and role assignment.
+ * Redirects to users list upon successful creation.
+ */
 import React, {SyntheticEvent, useEffect} from 'react'
 import Wrapper from "../../components/Wrapper";
 import axios from "axios";
@@ -12,6 +19,9 @@ const UserCreate = () => {
     const [roles, setRoles] = React.useState([]);
     const [redirect, setRedirect] = React.useState(false);
 
+    /**
+     * Effect hook that loads available roles on component mount
+     */
     useEffect(() => {
         (
             async () => {
@@ -21,6 +31,10 @@ const UserCreate = () => {
         )()
     }, []);
 
+    /**
+     * Handles form submission for creating a new user
+     * @param e - Form submission event
+     */
     const submit = async (e:SyntheticEvent) => {
         e.preventDefault();
         try {

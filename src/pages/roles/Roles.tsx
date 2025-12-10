@@ -1,3 +1,10 @@
+/**
+ * Roles Page Component
+ * 
+ * Displays a list of all roles in the system.
+ * Allows viewing role details, editing roles, and deleting roles.
+ * Provides a link to create new roles.
+ */
 import React, {useEffect} from 'react';
 import Wrapper from "../../components/Wrapper";
 import {Link} from "react-router-dom";
@@ -9,6 +16,9 @@ import axios from "axios";
 const Roles = () => {
     const [roles, setRoles] = React.useState([]);
 
+    /**
+     * Effect hook that fetches all roles on component mount
+     */
     useEffect(() => {
         (
             async () =>{
@@ -18,6 +28,10 @@ const Roles = () => {
         )();
     }, []);
 
+    /**
+     * Deletes a role after user confirmation
+     * @param id - The ID of the role to delete
+     */
     const del = async (id: number) => {
         if (window.confirm("Are you sure you want to delete?")) {
             await axios.delete(`roles/${id}`);

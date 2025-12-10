@@ -1,3 +1,10 @@
+/**
+ * Profile Page Component
+ * 
+ * User profile page that allows users to view and update their account information.
+ * Provides two forms: one for updating personal information (name, email) and
+ * another for changing password. Connected to Redux to access and update user state.
+ */
 import React, {Dispatch, SyntheticEvent, useEffect} from 'react'
 import Wrapper from "../../components/Wrapper";
 import axios from "axios";
@@ -12,12 +19,19 @@ const Profile = (props: {user: User, setUser: (user: User) => void}) => {
     const [password, setPassword] = React.useState("");
     const [password_confirm, setPasswordConfirm] = React.useState("");
 
+    /**
+     * Effect hook that initializes form fields with current user data
+     */
     useEffect(() => {
         setFirstName(props.user.first_name);
         setLastName(props.user.last_name);
         setEmail(props.user.email);
     }, []);
 
+    /**
+     * Handles form submission for updating user information
+     * @param e - Form submission event
+     */
     const infoSubmit = async (e: SyntheticEvent)=>{
         e.preventDefault();
         const {data} =  await axios.put(`/users/info`, {
@@ -34,6 +48,10 @@ const Profile = (props: {user: User, setUser: (user: User) => void}) => {
         ));
     }
 
+    /**
+     * Handles form submission for changing user password
+     * @param e - Form submission event
+     */
     const passwordSubmit = async (e: SyntheticEvent)=>{
         e.preventDefault();
         await axios.put(`/users/info`, {

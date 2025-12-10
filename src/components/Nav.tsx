@@ -1,3 +1,10 @@
+/**
+ * Nav Component
+ * 
+ * Top navigation bar component that displays the company name and user information.
+ * Includes a link to the user's profile and a sign out button.
+ * Connected to Redux store to access current user information.
+ */
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -6,6 +13,9 @@ import {User} from "../models/user";
 
 const Nav = (props: {user: User}) => {
 
+    /**
+     * Handles user logout by sending a POST request to the logout endpoint
+     */
     const logout = async () => {
         await axios.post("logout", {});
     }
