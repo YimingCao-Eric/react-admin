@@ -16,7 +16,7 @@ A modern, responsive React-based admin dashboard frontend for managing an e-comm
   - Delete users with confirmation
 - **Profile Management**: Users can update their own profile information and change passwords
 
-### Role-Based Access Control (RBAC)
+### Role-Based Access Control 
 - **Role Management**: Full CRUD interface for roles
   - View all roles
   - Create roles with permission assignments
