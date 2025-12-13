@@ -1,4 +1,4 @@
-# React Admin Dashboard
+# E-Commerce Admin Frontend Dashboard (React)
 
 A modern, responsive React-based admin dashboard frontend for managing an e-commerce platform. Built with TypeScript, Redux for state management, and React Router for navigation. This frontend provides a comprehensive interface for user management, role-based access control, product management, order processing, and analytics visualization. The codebase follows (and extends) lessons from the course [React and Golang: A Practical Guide](https://www.udemy.com/course/react-go-admin/).
 
