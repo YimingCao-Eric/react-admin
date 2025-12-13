@@ -390,14 +390,6 @@ This project follows best practices for React and TypeScript development. When c
 3. Test your changes thoroughly
 4. Update documentation as needed
 
-## 📚 Learn More
-
-- [React Documentation](https://reactjs.org/)
-- [TypeScript Documentation](https://www.typescriptlang.org/)
-- [Redux Documentation](https://redux.js.org/)
-- [React Router Documentation](https://reactrouter.com/)
-- [Axios Documentation](https://axios-http.com/)
-
 ---
 
 **Note**: This is the frontend application. For the backend API service, visit the [go-admin repository](https://github.com/YimingCao-Eric/go-admin).
