@@ -60,6 +60,7 @@ Before running this project, ensure you have the following installed:
 - **Node.js** (version 14.0 or higher)
 - **npm** (version 6.0 or higher) or **yarn**
 - **Backend API** running (see [go-admin](https://github.com/YimingCao-Eric/go-admin) for backend setup)
+- **Git** (for cloning the repository)
 
 ## 🔧 Installation
 
@@ -93,7 +94,13 @@ Before running this project, ensure you have the following installed:
 
 ## 🏃 Running the Application
 
-1. **Start the development server**
+1. **Start the backend server first**
+   
+   Make sure the backend API is running. See the [go-admin repository](https://github.com/YimingCao-Eric/go-admin) for backend setup instructions.
+   
+   The backend should be running at `http://localhost:8000`
+
+2. **Start the frontend development server**
    ```bash
    npm start
    ```
@@ -102,11 +109,11 @@ Before running this project, ensure you have the following installed:
    yarn start
    ```
 
-2. **Open your browser**
+3. **Open your browser**
    
    The application will automatically open at [http://localhost:3000](http://localhost:3000)
 
-3. **Login**
+4. **Login**
    
    - If you don't have an account, register at `/register`
    - Login with your credentials at `/login`
@@ -166,7 +173,7 @@ react-admin/
 
 ## 🔌 API Integration
 
-The frontend communicates with the backend API at `http://localhost:8000/api/`. Key integration points:
+The frontend communicates with the backend API at `http://localhost:8000/api/`. For complete API documentation, see the [go-admin README](https://github.com/YimingCao-Eric/go-admin).
 
 ### Authentication
 - **Login**: `POST /api/login` - Authenticates user and receives JWT token in HTTP-only cookie
@@ -176,8 +183,19 @@ The frontend communicates with the backend API at `http://localhost:8000/api/`. 
 
 ### Data Fetching
 - All API requests use `axios` with credentials enabled for cookie-based authentication
-- Pagination is handled via query parameters: `?page=1`
+- Pagination is handled via query parameters: `?page=1` (default: 5 records per page)
 - Error handling is implemented for failed requests
+- Response format follows backend pagination structure:
+  ```json
+  {
+    "data": [...],
+    "meta": {
+      "total": 100,
+      "page": 1,
+      "last_page": 20
+    }
+  }
+  ```
 
 ### State Management
 - **Redux**: Used for managing authenticated user state globally
@@ -185,13 +203,13 @@ The frontend communicates with the backend API at `http://localhost:8000/api/`. 
 
 ## 🛠️ Technologies Used
 
-- **React 19**: UI library
-- **TypeScript**: Type-safe JavaScript
-- **Redux**: State management
-- **React Router**: Client-side routing
-- **Axios**: HTTP client for API requests
-- **C3.js / D3.js**: Charting library for data visualization
-- **Bootstrap**: CSS framework for styling
+- **React 19**: Modern UI library
+- **TypeScript**: Type-safe JavaScript for better development experience
+- **Redux**: Global state management for user authentication
+- **React Router v7**: Client-side routing and navigation
+- **Axios**: HTTP client for API requests with cookie support
+- **C3.js / D3.js**: Charting libraries for data visualization
+- **Bootstrap**: CSS framework for responsive styling
 - **Create React App**: Build tooling and development environment
 
 ## 📜 Available Scripts
@@ -228,10 +246,15 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 ## 🔐 Authentication Flow
 
 1. **Login/Register**: User authenticates via login or registration form
-2. **Token Storage**: JWT token is stored in HTTP-only cookie by the backend
+   - Login: `POST /api/login` with email and password
+   - Register: `POST /api/register` with user details and password confirmation
+2. **Token Storage**: JWT token is stored in HTTP-only cookie by the backend (24-hour expiration)
 3. **Protected Routes**: `Wrapper` component checks authentication on mount
+   - Fetches current user via `GET /api/user`
+   - Updates Redux store with user information
 4. **Auto-redirect**: Unauthenticated users are redirected to login page
 5. **State Management**: Authenticated user data is stored in Redux store
+6. **Logout**: `POST /api/logout` clears authentication cookie and redirects to login
 
 ## 🎨 Key Components
 
@@ -256,9 +279,11 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 This frontend is designed to work seamlessly with the [go-admin](https://github.com/YimingCao-Eric/go-admin) backend:
 
 - **CORS**: Backend configured to accept requests from `http://localhost:3000`
-- **Cookies**: JWT tokens transmitted via HTTP-only cookies
+- **Cookies**: JWT tokens transmitted via HTTP-only cookies (24-hour expiration)
 - **API Endpoints**: All endpoints match backend route definitions
 - **Error Handling**: Frontend handles backend error responses gracefully
+- **Authentication**: JWT-based authentication with automatic token validation
+- **Authorization**: Role-based access control (RBAC) enforced by backend
 
 ## 📝 Development Notes
 
@@ -267,8 +292,12 @@ This frontend is designed to work seamlessly with the [go-admin](https://github.
 - **Error Handling**: Try-catch blocks and error states implemented throughout
 - **Loading States**: Loading indicators shown during async operations
 - **Form Validation**: HTML5 validation and custom validation where needed
+- **Code Style**: Follows React and TypeScript best practices
+- **State Management**: Redux used for global user state, local state for component-specific data
 
 ## 🚀 Deployment
+
+### Build for Production
 
 To build the app for production:
 
@@ -276,21 +305,40 @@ To build the app for production:
 npm run build
 ```
 
-This creates an optimized production build in the `build` folder. You can serve this with any static file server:
+This creates an optimized production build in the `build` folder.
+
+### Production Deployment Steps
+
+1. **Update API Configuration**
+   - Update the API base URL in `src/index.tsx` to point to your production backend
+   - Ensure the backend CORS is configured to accept requests from your frontend domain
+
+2. **Build the Application**
+   ```bash
+   npm run build
+   ```
+
+3. **Deploy the Build Folder**
+   - Deploy the `build` folder to your hosting service (Netlify, Vercel, AWS S3, etc.)
+   - Configure your hosting service to serve the React app correctly
+
+4. **Backend Requirements**
+   - Ensure the backend API is deployed and accessible
+   - Update backend CORS settings to include your production frontend URL
+   - Configure HTTPS for both frontend and backend in production
+
+### Testing Production Build Locally
+
+You can test the production build locally:
 
 ```bash
 # Using serve
 npx serve -s build
 
-# Using Node.js
+# Or using Node.js
 npm install -g serve
 serve -s build
 ```
-
-For production deployment:
-1. Update the API base URL in `src/index.tsx` to point to your production backend
-2. Build the application: `npm run build`
-3. Deploy the `build` folder to your hosting service (Netlify, Vercel, AWS S3, etc.)
 
 ## 📄 License
 
