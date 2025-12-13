@@ -1,57 +1,56 @@
 # React Admin Dashboard
 
-A modern, responsive React-based admin dashboard frontend for managing an e-commerce platform. Built with TypeScript, Redux for state management, and React Router for navigation. This frontend provides a comprehensive interface for user management, role-based access control, product management, order processing, and analytics visualization. The codebase follows (and extends) lessons from the course [React and Golang: A Practical Guide](https://www.udemy.com/course/react-go-admin/). 
-
+A modern, responsive React-based admin dashboard frontend for managing an e-commerce platform. Built with TypeScript, Redux for state management, and React Router for navigation. This frontend provides a comprehensive interface for user management, role-based access control, product management, order processing, and analytics visualization. The codebase follows (and extends) lessons from the course [React and Golang: A Practical Guide](https://www.udemy.com/course/react-go-admin/).
 
 **Backend Repository:** [go-admin](https://github.com/YimingCao-Eric/go-admin)
 
 ## 🚀 Features
 
-### Authentication & User Management
-- **User Authentication**: Login and registration pages with JWT-based authentication
-- **User Management**: Complete CRUD operations for user accounts
+- **Authentication & User Management**
+  - Login and registration pages with JWT-based authentication
+  - Complete CRUD operations for user accounts
   - View paginated user list
   - Create new users with role assignment
   - Edit user information and roles
   - Delete users with confirmation
-- **Profile Management**: Users can update their own profile information and change passwords
+  - Profile management: Users can update their own profile information and change passwords
 
-### Role-Based Access Control 
-- **Role Management**: Full CRUD interface for roles
+- **Role-Based Access Control**
+  - Full CRUD interface for roles
   - View all roles
   - Create roles with permission assignments
   - Edit roles and their associated permissions
   - Delete roles
-- **Permission Management**: Visual interface for assigning permissions to roles
+  - Visual interface for assigning permissions to roles
 
-### Product Management
-- **Product Catalog**: Complete product management system
+- **Product Management**
+  - Complete product management system
   - Paginated product listing with images
   - Create new products with image upload
   - Edit existing products
   - Delete products with confirmation
-- **Image Upload**: Integrated image upload component for product images
+  - Integrated image upload component for product images
 
-### Order Management
-- **Order Tracking**: View all orders with detailed information
+- **Order Management**
+  - View all orders with detailed information
   - Paginated order list
   - Expandable order items view
   - Customer information display
   - Order totals and pricing
-- **Data Export**: Export orders to CSV format
+  - Export orders to CSV format
 
-### Analytics & Dashboard
-- **Sales Dashboard**: Visual representation of daily sales data
-- **Interactive Charts**: Bar charts using C3.js library for sales visualization
-- **Real-time Data**: Fetches and displays up-to-date sales analytics
+- **Analytics & Dashboard**
+  - Visual representation of daily sales data
+  - Interactive bar charts using C3.js library for sales visualization
+  - Fetches and displays up-to-date sales analytics
 
-### UI/UX Features
-- **Responsive Design**: Mobile-friendly layout using Bootstrap
-- **Protected Routes**: Authentication wrapper for secure pages
-- **Loading States**: User feedback during data fetching
-- **Error Handling**: Graceful error handling and user notifications
-- **Navigation**: Sidebar menu with active route highlighting
-- **Pagination**: Efficient data pagination for large datasets
+- **UI/UX Features**
+  - Responsive design: Mobile-friendly layout using Bootstrap
+  - Protected routes: Authentication wrapper for secure pages
+  - Loading states: User feedback during data fetching
+  - Error handling: Graceful error handling and user notifications
+  - Navigation: Sidebar menu with active route highlighting
+  - Pagination: Efficient data pagination for large datasets
 
 ## 📋 Prerequisites
 
@@ -175,13 +174,15 @@ react-admin/
 
 The frontend communicates with the backend API at `http://localhost:8000/api/`. For complete API documentation, see the [go-admin README](https://github.com/YimingCao-Eric/go-admin).
 
-### Authentication
+### Authentication Endpoints
+
 - **Login**: `POST /api/login` - Authenticates user and receives JWT token in HTTP-only cookie
 - **Register**: `POST /api/register` - Creates new user account
 - **Logout**: `POST /api/logout` - Clears authentication cookie
 - **Get User**: `GET /api/user` - Fetches current authenticated user
 
 ### Data Fetching
+
 - All API requests use `axios` with credentials enabled for cookie-based authentication
 - Pagination is handled via query parameters: `?page=1` (default: 5 records per page)
 - Error handling is implemented for failed requests
@@ -198,8 +199,63 @@ The frontend communicates with the backend API at `http://localhost:8000/api/`. 
   ```
 
 ### State Management
+
 - **Redux**: Used for managing authenticated user state globally
 - User information is stored in Redux store and accessible throughout the app
+
+## 🔐 Authentication Flow
+
+1. **Login/Register**: User authenticates via login or registration form
+   - Login: `POST /api/login` with email and password
+   - Register: `POST /api/register` with user details and password confirmation
+2. **Token Storage**: JWT token is stored in HTTP-only cookie by the backend (24-hour expiration)
+3. **Protected Routes**: `Wrapper` component checks authentication on mount
+   - Fetches current user via `GET /api/user`
+   - Updates Redux store with user information
+4. **Auto-redirect**: Unauthenticated users are redirected to login page
+5. **State Management**: Authenticated user data is stored in Redux store
+6. **Logout**: `POST /api/logout` clears authentication cookie and redirects to login
+
+## 🛡️ Authorization (RBAC)
+
+The frontend works with the backend's Role-Based Access Control system:
+
+- **Permissions**: Granular permissions (e.g., `view_users`, `edit_users`)
+- **Roles**: Collections of permissions assigned to users
+- **User Interface**: Visual interface for managing roles and permissions
+
+### Permission Naming Convention
+
+- **GET requests**: Require `view_<resource>` or `edit_<resource>` permission
+- **POST/PUT/DELETE requests**: Require `edit_<resource>` permission
+
+Example permissions:
+- `view_users`, `edit_users`
+- `view_products`, `edit_products`
+- `view_orders`, `edit_orders`
+
+## 📊 Pagination
+
+List pages support pagination using query parameter `page`:
+
+```
+GET /api/products?page=1
+GET /api/users?page=2
+```
+
+Response format:
+```json
+{
+  "data": [...],
+  "meta": {
+    "total": 100,
+    "page": 1,
+    "last_page": 20
+  }
+}
+```
+
+Default: 5 records per page
 
 ## 🛠️ Technologies Used
 
@@ -243,19 +299,6 @@ Your app is ready to be deployed!
 
 If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-## 🔐 Authentication Flow
-
-1. **Login/Register**: User authenticates via login or registration form
-   - Login: `POST /api/login` with email and password
-   - Register: `POST /api/register` with user details and password confirmation
-2. **Token Storage**: JWT token is stored in HTTP-only cookie by the backend (24-hour expiration)
-3. **Protected Routes**: `Wrapper` component checks authentication on mount
-   - Fetches current user via `GET /api/user`
-   - Updates Redux store with user information
-4. **Auto-redirect**: Unauthenticated users are redirected to login page
-5. **State Management**: Authenticated user data is stored in Redux store
-6. **Logout**: `POST /api/logout` clears authentication cookie and redirects to login
-
 ## 🎨 Key Components
 
 ### Wrapper Component
@@ -278,6 +321,8 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 
 This frontend is designed to work seamlessly with the [go-admin](https://github.com/YimingCao-Eric/go-admin) backend:
 
+- **Frontend URL**: `http://localhost:3000` (development)
+- **Backend URL**: `http://localhost:8000` (development)
 - **CORS**: Backend configured to accept requests from `http://localhost:3000`
 - **Cookies**: JWT tokens transmitted via HTTP-only cookies (24-hour expiration)
 - **API Endpoints**: All endpoints match backend route definitions
@@ -297,17 +342,7 @@ This frontend is designed to work seamlessly with the [go-admin](https://github.
 
 ## 🚀 Deployment
 
-### Build for Production
-
-To build the app for production:
-
-```bash
-npm run build
-```
-
-This creates an optimized production build in the `build` folder.
-
-### Production Deployment Steps
+### Production Considerations
 
 1. **Update API Configuration**
    - Update the API base URL in `src/index.tsx` to point to your production backend
@@ -317,6 +352,8 @@ This creates an optimized production build in the `build` folder.
    ```bash
    npm run build
    ```
+   
+   This creates an optimized production build in the `build` folder.
 
 3. **Deploy the Build Folder**
    - Deploy the `build` folder to your hosting service (Netlify, Vercel, AWS S3, etc.)
