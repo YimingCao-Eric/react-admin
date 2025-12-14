@@ -57,7 +57,7 @@ A modern, responsive React-based admin dashboard frontend for managing an e-comm
 Before running this project, ensure you have the following installed:
 
 - **Node.js** (version 14.0 or higher)
-- **npm** (version 6.0 or higher) or **yarn**
+- **npm** (version 6.0 or higher)
 - **Backend API** running (see [go-admin](https://github.com/YimingCao-Eric/go-admin) for backend setup)
 - **Git** (for cloning the repository)
 
@@ -72,10 +72,6 @@ Before running this project, ensure you have the following installed:
 2. **Install dependencies**
    ```bash
    npm install
-   ```
-   or
-   ```bash
-   yarn install
    ```
 
 3. **Configure API endpoint**
@@ -102,10 +98,6 @@ Before running this project, ensure you have the following installed:
 2. **Start the frontend development server**
    ```bash
    npm start
-   ```
-   or
-   ```bash
-   yarn start
    ```
 
 3. **Open your browser**
